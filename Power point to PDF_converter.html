@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PowerPoint to PDF converter tool. Easily convert your PowerPoint presentations to PDF files online for free.">
+    <meta name="keywords" content="PowerPoint to PDF, convert PPT to PDF, free PPT to PDF converter, online PowerPoint to PDF">
+    <meta name="author" content="Your Name">
+    <title>PowerPoint to PDF Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            max-width: 600px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        input[type="file"] {
+            margin-bottom: 20px;
+            width: 100%;
+            padding: 10px;
+            background-color: #f4f4f4;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .ad-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        #downloadSection {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>PowerPoint to PDF Converter</h1>
+    
+    <!-- File input for PowerPoint (PPTX) -->
+    <input type="file" id="fileInput" accept=".pptx">
+    
+    <!-- Button to convert PowerPoint to PDF -->
+    <button id="convertBtn">Convert PowerPoint to PDF</button>
+    
+    <!-- Section for download button after conversion -->
+    <div id="downloadSection">
+        <button id="downloadBtn">Download PDF</button>
+    </div>
+    
+    <!-- Admob Integration Section -->
+    <div class="ad-container">
+        <div id="admob-ad">
+            <!-- Insert your AdMob Ad Unit ID here -->
+            <script type="text/javascript">
+                // Example for inserting Google AdMob ad code
+                // Replace 'ca-app-pub-4044858385588111/6065894059' with actual AdMob Unit ID
+                var admobAd = document.createElement('script');
+                admobAd.src = 'https://example.com/admob.js'; // Add actual URL for your AdMob code
+                document.getElementById('admob-ad').appendChild(admobAd);
+            </script>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('convertBtn').addEventListener('click', function() {
+        const fileInput = document.getElementById('fileInput');
+        const file = fileInput.files[0];
+
+        if (file) {
+            // Simulate conversion (actual PowerPoint to PDF conversion requires server-side logic)
+            const pdfBlob = new Blob([file], { type: 'application/pdf' });
+
+            // Show the download button after conversion
+            document.getElementById('downloadSection').style.display = 'block';
+
+            // Handle file download
+            document.getElementById('downloadBtn').addEventListener('click', function() {
+                const url = URL.createObjectURL(pdfBlob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'converted_file.pdf';
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+        } else {
+            alert('Please upload a PowerPoint file.');
+        }
+    });
+</script>
+
+</body>
+  </html>
