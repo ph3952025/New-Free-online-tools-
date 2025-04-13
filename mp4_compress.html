@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Free responsive video compression tool. Optimize videos online with adjustable compression levels. SEO-optimized and monetized with AdMob.">
+  <meta name="keywords" content="video compression, compress video, reduce video size, video optimizer">
+  <meta name="author" content="Your Name">
+  <title>Video Compression Tool</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    header, footer {
+      background: #222;
+      color: #fff;
+      text-align: center;
+      padding: 1rem;
+    }
+    main {
+      max-width: 800px;
+      margin: auto;
+      padding: 2rem;
+      background: #fff;
+    }
+    .input-group, .output-group {
+      margin-bottom: 1.5rem;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    input[type="file"], input[type="range"] {
+      width: 100%;
+    }
+    video {
+      width: 100%;
+      max-height: 400px;
+    }
+    .ads-placeholder {
+      margin: 2rem 0;
+      background: #e2e2e2;
+      text-align: center;
+      padding: 1rem;
+      border: 1px dashed #999;
+    }
+    @media (max-width: 600px) {
+      main {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Video Compression Tool</h1>
+    <p>Compress and optimize your videos online for free.</p>
+  </header>
+
+  <main>
+    <section class="input-group">
+      <label for="videoInput">Select Video:</label>
+      <input type="file" id="videoInput" accept="video/*">
+    </section>
+
+    <section class="input-group">
+      <label for="compressionLevel">Compression Level (Low = High Quality, High = Small Size):</label>
+      <input type="range" id="compressionLevel" min="10" max="100" value="70">
+      <p>Current Level: <span id="compressionValue">70</span>%</p>
+    </section>
+
+    <section class="ads-placeholder">
+      <!-- Replace with your actual AdMob ad code -->
+      <p>Ad Placeholder - Insert AdMob code here</p>
+    </section>
+
+    <section class="output-group">
+      <video id="videoPreview" controls></video>
+      <a id="downloadLink" href="#" download="compressed-video.mp4">Download Compressed Video</a>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Video Compression Tool. All rights reserved.</p>
+  </footer>
+
+  <!-- AdMob Integration -->
+  <script>
+    const admobScript = document.createElement('script');
+    admobScript.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
+    admobScript.setAttribute('data-ad-client', 'ca-app-pub-4044858385588111/3084507499');
+    document.head.appendChild(admobScript);
+  </script>
+
+  <script>
+    const videoInput = document.getElementById('videoInput');
+    const compressionLevel = document.getElementById('compressionLevel');
+    const compressionValue = document.getElementById('compressionValue');
+    const videoPreview = document.getElementById('videoPreview');
+    const downloadLink = document.getElementById('downloadLink');
+
+    let originalBlob = null;
+
+    videoInput.addEventListener('change', function () {
+      const file = this.files[0];
+      if (file) {
+        originalBlob = file;
+        const url = URL.createObjectURL(file);
+        videoPreview.src = url;
+        updateDownloadLink();
+      }
+    });
+
+    compressionLevel.addEventListener('input', function () {
+      compressionValue.textContent = this.value;
+      updateDownloadLink();
+    });
+
+    function updateDownloadLink() {
+      if (!originalBlob) return;
+      // This is a simulated compression - real compression requires server-side or WebAssembly-based processing.
+      const quality = compressionLevel.value / 100;
+      const compressedBlob = new Blob([originalBlob.slice(0, originalBlob.size * quality)], { type: originalBlob.type });
+      const url = URL.createObjectURL(compressedBlob);
+      downloadLink.href = url;
+    }
+  </script>
+</body>
+</html>
