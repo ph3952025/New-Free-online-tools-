@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PDF to JPG file converter tool. Easily convert your PDF documents to JPG images online.">
+    <meta name="keywords" content="PDF to JPG, convert PDF to image, PDF to image converter, free PDF to JPG">
+    <meta name="author" content="Your Name">
+    <title>PDF to JPG Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            max-width: 600px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        input[type="file"] {
+            margin-bottom: 20px;
+            width: 100%;
+            padding: 10px;
+            background-color: #f4f4f4;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .ad-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        #imagePreview {
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+        #downloadSection {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>PDF to JPG Converter</h1>
+    
+    <!-- File input for PDF -->
+    <input type="file" id="fileInput" accept="application/pdf">
+    
+    <!-- Button to convert PDF to JPG -->
+    <button id="convertBtn">Convert PDF to JPG</button>
+    
+    <!-- Image Preview Section -->
+    <div id="imagePreview">
+        <h3>Preview of Converted JPG</h3>
+        <img id="jpgPreview" alt="Converted JPG will appear here" style="width: 100%; max-width: 400px;">
+    </div>
+    
+    <!-- Section for download button after conversion -->
+    <div id="downloadSection">
+        <button id="downloadBtn">Download JPG</button>
+    </div>
+    
+    <!-- Admob Integration Section -->
+    <div class="ad-container">
+        <div id="admob-ad">
+            <!-- Insert your AdMob Ad Unit ID here -->
+            <script type="text/javascript">
+                // Example for inserting Google AdMob ad code
+                // Replace 'ca-app-pub-4044858385588111/8312783447' with actual AdMob Unit ID
+                var admobAd = document.createElement('script');
+                admobAd.src = 'https://example.com/admob.js'; // Add actual URL for your AdMob code
+                document.getElementById('admob-ad').appendChild(admobAd);
+            </script>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+<script>
+    document.getElementById('convertBtn').addEventListener('click', function() {
+        const fileInput = document.getElementById('fileInput');
+        const file = fileInput.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+            
+            reader.onload = function(event) {
+                const pdfData = event.target.result;
+
+                // Load the PDF document using PDF.js
+                pdfjsLib.getDocument(pdfData).promise.then(function(pdf) {
+                    pdf.getPage(1).then(function(page) {
+                        const scale = 1.5;
+                        const viewport = page.getViewport({ scale: scale });
+
+                        // Create a canvas to render the PDF page
+                        const canvas = document.createElement('canvas');
+                        const context = canvas.getContext('2d');
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
+
+                        // Render the page on the canvas
+                        page.render({
+                            canvasContext: context,
+                            viewport: viewport
+                        }).promise.then(function() {
+                            // Show image preview after rendering
+                            const imgData = canvas.toDataURL();
+                            document.getElementById('jpgPreview').src = imgData;
+                            document.getElementById('imagePreview').style.display = 'block';
+                            document.getElementById('downloadSection').style.display = 'block';
+
+                            // Enable download button
+                            document.getElementById('downloadBtn').addEventListener('click', function() {
+                                const link = document.createElement('a');
+                                link.href = imgData;
+                                link.download = 'converted_image.jpg';
+                                link.click();
+                            });
+                        });
+                    });
+                });
+            };
+            
+            reader.readAsArrayBuffer(file);
+        } else {
+            alert('Please upload a PDF file.');
+        }
+    });
+</script>
+
+</body>
+</html>
