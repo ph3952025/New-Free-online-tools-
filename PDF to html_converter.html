@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Convert PDF files to HTML format online. Upload your PDF, and get a converted HTML version for free.">
+    <meta name="keywords" content="PDF to HTML, online PDF converter, PDF to HTML conversion, convert PDF to HTML online">
+    <meta name="author" content="Your Name">
+    <title>PDF to HTML Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            max-width: 700px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        input[type="file"] {
+            margin-bottom: 20px;
+            width: 100%;
+            padding: 10px;
+            background-color: #f4f4f4;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #htmlOutput {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f4f4f4;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            min-height: 300px;
+            overflow-y: auto;
+        }
+        .ad-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        #downloadSection {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>PDF to HTML Converter</h1>
+    
+    <!-- File input for PDF document -->
+    <input type="file" id="fileInput" accept=".pdf">
+    
+    <!-- Button to convert PDF to HTML -->
+    <button id="convertBtn">Convert PDF to HTML</button>
+    
+    <!-- Output HTML preview -->
+    <div id="htmlOutput" contenteditable="true">
+        <!-- Converted HTML content will appear here -->
+    </div>
+
+    <!-- Section for download button after conversion -->
+    <div id="downloadSection">
+        <button id="downloadBtn">Download Converted HTML</button>
+    </div>
+
+    <!-- Admob Integration Section -->
+    <div class="ad-container">
+        <div id="admob-ad">
+            <!-- Insert your AdMob Ad Unit ID here -->
+            <script type="text/javascript">
+                // Example for inserting Google AdMob ad code
+                // Replace 'ca-app-pub-4044858385588111/6471657540' with actual AdMob Unit ID
+                var admobAd = document.createElement('script');
+                admobAd.src = 'https://example.com/admob.js'; // ca-app-pub-4044858385588111~7391827286
+                document.getElementById('admob-ad').appendChild(admobAd);
+            </script>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+<script>
+    document.getElementById('convertBtn').addEventListener('click', function() {
+        const fileInput = document.getElementById('fileInput');
+        const file = fileInput.files[0];
+
+        if (file && file.type === "application/pdf") {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const pdfData = new Uint8Array(e.target.result);
+                
+                // Use PDF.js to parse the PDF
+                pdfjsLib.getDocument(pdfData).promise.then(function(pdf) {
+                    let htmlContent = "";
+                    
+                    // Loop through each page in the PDF and extract text
+                    const numPages = pdf.numPages;
+                    let currentPage = 1;
+
+                    function renderPage(pageNum) {
+                        pdf.getPage(pageNum).then(function(page) {
+                            page.getTextContent().then(function(textContent) {
+                                let pageText = textContent.items.map(item => item.str).join(" ");
+                                htmlContent += `<div class="page"><p>${pageText}</p></div>`;
+
+                                // Check if we are done with all pages
+                                if (currentPage < numPages) {
+                                    currentPage++;
+                                    renderPage(currentPage);
+                                } else {
+                                    // Once all pages are processed, display the HTML and show the download button
+                                    document.getElementById('htmlOutput').innerHTML = htmlContent;
+                                    document.getElementById('downloadSection').style.display = 'block';
+
+                                    // Enable download of the HTML file
+                                    document.getElementById('downloadBtn').addEventListener('click', function() {
+                                        const blob = new Blob([htmlContent], { type: 'text/html' });
+                                        const url = URL.createObjectURL(blob);
+                                        const a = document.createElement('a');
+                                        a.href = url;
+                                        a.download = 'converted_pdf_to_html.html';
+                                        a.click();
+                                    });
+                                }
+                            });
+                        });
+                    }
+
+                    renderPage(currentPage);
+                });
+            };
+
+            reader.readAsArrayBuffer(file);
+        } else {
+            alert("Please upload a valid PDF file.");
+        }
+    });
+</script>
+
+</body>
+  </html>
