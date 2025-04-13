@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PDF file compression tool to reduce PDF size. Easily compress your PDFs online for free.">
+    <meta name="keywords" content="PDF compressor, reduce PDF size, online PDF compressor, compress PDF files">
+    <meta name="author" content="Your Name">
+    <title>PDF File Compression Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            max-width: 600px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        input[type="file"] {
+            margin-bottom: 20px;
+            width: 100%;
+            padding: 10px;
+            background-color: #f4f4f4;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .ad-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        #downloadSection {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>PDF File Compression Tool</h1>
+    
+    <!-- File input for PDF -->
+    <input type="file" id="fileInput" accept="application/pdf">
+    
+    <!-- Button to compress PDF -->
+    <button id="compressBtn">Compress PDF</button>
+    
+    <!-- Section for download button after compression -->
+    <div id="downloadSection">
+        <button id="downloadBtn">Download Compressed PDF</button>
+    </div>
+    
+    <!-- Admob Integration Section -->
+    <div class="ad-container">
+        <div id="ca-app-pub-4044858385588111/3357574894">
+            <!-- Insert your AdMob Ad Unit ID here -->
+            <script type="text/javascript">
+                // Example for inserting Google AdMob ad code
+                // Replace 'ca-app-pub-4044858385588111/3357574894' with actual AdMob Unit ID
+                var admobAd = document.createElement('script');
+                admobAd.src = 'https://example.com/admob.js'; // Add actual URL for your AdMob code
+                document.getElementById('ca-app-pub-4044858385588111/3357574894').appendChild(admobAd);
+            </script>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('compressBtn').addEventListener('click', function() {
+        const fileInput = document.getElementById('fileInput');
+        const file = fileInput.files[0];
+
+        if (file) {
+            // Simulating PDF compression (actual compression requires server-side or complex client-side libraries)
+            const compressedFile = new Blob([file], { type: 'application/pdf' });
+
+            // Show the download button after compression
+            document.getElementById('downloadSection').style.display = 'block';
+
+            // Handle file download
+            document.getElementById('downloadBtn').addEventListener('click', function() {
+                const url = URL.createObjectURL(compressedFile);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'compressed_file.pdf';
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+        } else {
+            alert('Please upload a PDF file.');
+        }
+    });
+</script>
+
+</body>
+</html>
