@@ -1,0 +1,87 @@
+<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Responsive image chopper tool to crop images dynamically. SEO optimized and monetized with Google AdMob.">
+    <meta name="keywords" content="image cropper, responsive tool, image chopper, SEO image tool, AdMob monetization">
+    <meta name="author" content="Your Name">
+    <title>Responsive Image Chopper Tool</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" integrity="sha512-..." crossorigin="anonymous" />
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        header, footer { background: #333; color: white; text-align: center; padding: 1em; }
+        .container { padding: 20px; max-width: 1000px; margin: auto; }
+        .ad-space { border: 2px dashed #ccc; padding: 20px; text-align: center; margin: 20px 0; }
+        img { max-width: 100%; display: block; margin: auto; }
+        #preview { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Responsive Image Chopper</h1>
+        <p>Crop your images dynamically and easily</p>
+    </header><div class="container">
+    <!-- Advertisement Top -->
+    <div class="ad-space">
+        <!-- ca-app-pub-4044858385588111/9615925120 -->
+        <p>Ad Space (Top)</p>
+    </div>
+
+    <input type="file" id="imageInput" accept="image/*">
+    <br>
+    <div>
+        <img id="image" style="display:none;">
+    </div>
+    <br>
+    <button id="cropBtn" style="display:none;">Crop Image</button>
+    <div id="preview"></div>
+
+    <!-- Advertisement Bottom -->
+    <div class="ad-space">
+        <!-- ca-app-pub-4044858385588111/1306190263 -->
+        <p>Ad Space (Bottom)</p>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2025 Image Chopper. All rights reserved.</p>
+</footer>
+
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" integrity="sha512-..." crossorigin="anonymous"></script>
+<script>
+    let cropper;
+    const imageInput = document.getElementById('imageInput');
+    const image = document.getElementById('image');
+    const cropBtn = document.getElementById('cropBtn');
+    const preview = document.getElementById('preview');
+
+    imageInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                image.src = reader.result;
+                image.style.display = 'block';
+                if (cropper) cropper.destroy();
+                cropper = new Cropper(image, { aspectRatio: NaN });
+                cropBtn.style.display = 'inline-block';
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+    cropBtn.addEventListener('click', () => {
+        const canvas = cropper.getCroppedCanvas();
+        const croppedImage = document.createElement('img');
+        croppedImage.src = canvas.toDataURL();
+        preview.innerHTML = '';
+        preview.appendChild(croppedImage);
+    });
+</script>
+
+<!-- AdMob Placeholder (ca-app-pub-4044858385588111~7391827286) -->
+<!-- Example: <script data-ad-client="ca-pub-XXXXXXXXXXXX" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+</body>
+</html>
