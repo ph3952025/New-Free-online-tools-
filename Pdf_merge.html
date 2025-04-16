@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Merge multiple PDF files quickly and easily with our responsive PDF merge tool. SEO-optimized and AdMob integrated for monetization.">
+    <meta name="keywords" content="PDF merge, PDF tool, merge PDFs online, responsive PDF merger">
+    <meta name="author" content="Your Company Name">
+    <title>PDF Merge Tool - Merge PDFs Online</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header, footer {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        main {
+            padding: 20px;
+            max-width: 900px;
+            margin: auto;
+            background-color: white;
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .upload-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        input[type="file"] {
+            padding: 10px;
+        }
+        .ad-space {
+            margin: 20px 0;
+            text-align: center;
+            background: #ccc;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        @media (max-width: 600px) {
+            .upload-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>PDF Merge Tool</h1>
+        <p>Merge your PDFs fast and free</p>
+    </header>
+    <main>
+        <div class="upload-container">
+            <input type="file" id="pdfFiles" multiple accept="application/pdf">
+            <button onclick="mergePDFs()">Merge PDFs</button>
+        </div>
+
+        <!-- Ad Space Top -->
+        <div class="ad-space">
+            <!-- ca-app-pub-4044858385588111/6394510194 -->
+            <p>Ad Space (Top)</p>
+        </div>
+
+        <canvas id="pdfCanvas" style="display:none;"></canvas>
+        <div id="downloadLink"></div>
+
+        <!-- Ad Space Bottom -->
+        <div class="ad-space">
+            <!-- ca-app-pub-4044858385588111/3768346857 -->
+            <p>Ad Space (Bottom)</p>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2025 PDF Merge Tool. All rights reserved.</p>
+    </footer>
+
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+    <script>
+        async function mergePDFs() {
+            const input = document.getElementById('pdfFiles');
+            const files = input.files;
+
+            if (!files.length) {
+                alert('Please upload PDF files to merge.');
+                return;
+            }
+
+            const mergedPdf = await PDFLib.PDFDocument.create();
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
+                const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+                copiedPages.forEach((page) => mergedPdf.addPage(page));
+            }
+
+            const pdfBytes = await mergedPdf.save();
+
+            const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'merged.pdf';
+            link.textContent = 'Download Merged PDF';
+            link.style.display = 'block';
+            link.style.marginTop = '20px';
+
+            const downloadLinkDiv = document.getElementById('downloadLink');
+            downloadLinkDiv.innerHTML = '';
+            downloadLinkDiv.appendChild(link);
+        }
+    </script>
+
+    <!-- Example AdMob Script (Replace with your Ad Unit ID) -->
+    <!--
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-XXXXXXXXXXXXXXXX",
+            enable_page_level_ads: true
+        });
+    </script>
+    -->
+</body>
+</html>
